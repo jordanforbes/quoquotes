@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Edit</h1>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li {% if message.tags %} class='{{messages.tags}}'{% endif %}>{{message}}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <form action="{{thisQuote.id}}/update" method = 'post'>
+        {% csrf_token %}
+        <p>Quoted By: <input type="text" name="author" value={{thisQuote.author}}></p>
+        <p>Message: <input type="text" name="quote" value={{thisQuote.message}}></p>
+        <p><a href="/">Cancel</a></p>
+        <input type="submit" value="submit">
+    </form>
+</body>
+</html>

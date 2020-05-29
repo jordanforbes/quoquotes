@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .quote{
+            border: 1px solid black;
+            width:300px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Welcome, <a href="/users/{{ loggedId }}">{{ currentUser  }}!</a></h2>
+    <p><a href="/logout">logout</a></p>
+    <p>Quotable Quotes</p>
+    {% for quote in allquotes %}
+        <div class=quote>
+            <p>Author: {{ quote.author }}</p>
+            <p>Quote: {{ quote.message }}</p>
+            {% if quote.added_by.id == loggedId %}
+                <a href="quotes/{{quote.id}}/delete">Delete</a>
+                <a href="quotes/{{quote.id}}">Edit</a>
+            {% endif %}
+        </div>
+        <br>
+    {% endfor %}
+
+    <br>
+
+    <h3>Contribute a Quote</h3>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li {% if message.tags %} class='{{messages.tags}}'{% endif %}>{{message}}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <form action="/addquote", method="post">
+        {% csrf_token %}
+        <p>Quoted By: <input type="text" name="author"></p>
+        <p>Message: <input type="text" name="quote"></p>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
